@@ -5,11 +5,11 @@ class Vehicle {
     this.year = year;
   }
   honk() {
-    return "Beep."
+    return 'Beep.';
   }
   toString() {
-    const {make, model, year} = this;
-    return `The vehicle is a ${make} ${model} from ${year}.`
+    const { make, model, year } = this;
+    return `The vehicle is a ${make} ${model} from ${year}.`;
   }
 }
 
@@ -26,6 +26,23 @@ class Motorcycle extends Vehicle {
     this.numWheels = 2;
   }
   revEngine() {
-    return "VROOOM!!!"
+    return 'VROOOM!!!';
+  }
+}
+
+class Garage {
+  constructor(capacity) {
+    this.vehicles = [];
+    this.capacity = capacity;
+  }
+  add(vehicle) {
+    if (!(vehicle instanceof Vehicle)) {
+      return 'Only vehicles are allowed in here!';
+    }
+    if (this.vehicles.length >= this.capacity) {
+      return "Sorry, we're full.";
+    }
+    this.vehicles.push(vehicle);
+    return 'Vehicle Added';
   }
 }
