@@ -11,6 +11,7 @@ class Game {
     this.width = width;
     this.board = [];
     this.currPlayer = 1;
+    this.gameOver = false;
     this.makeBoard();
     this.makeHtmlBoard();
   }
@@ -83,33 +84,38 @@ class Game {
 
   /** handleClick: handle click of column top to play piece */
   handleClick(evt) {
-    const { board } = this;
-    // get x from ID of clicked cell
-    const x = +evt.target.id;
-
-    // get next spot in column (if none, ignore click)
-    
-    const y = this.findSpotForCol(x);
-    if (y === null) {
-      return;
+    if (!this.gameOver) {
+      const { board } = this;
+      // get x from ID of clicked cell
+      const x = +evt.target.id;
+  
+      // get next spot in column (if none, ignore click)
+      
+      const y = this.findSpotForCol(x);
+      if (y === null) {
+        return;
+      }
+  
+      // place piece in board and add to HTML table
+      board[y][x] = this.currPlayer;
+      this.placeInTable(y, x);
+  
+      // check for win
+      if (this.checkForWin()) {
+        setTimeout(() => {
+          return this.endGame(`Player ${this.currPlayer} won!`);
+        }, 10)
+      }
+  
+      // check for tie
+      if (board.every((row) => row.every((cell) => cell))) {
+        this.gameOver = true;
+        return this.endGame('Tie!');
+      }
+  
+      // switch players
+      this.currPlayer = this.currPlayer === 1 ? 2 : 1;
     }
-
-    // place piece in board and add to HTML table
-    board[y][x] = this.currPlayer;
-    this.placeInTable(y, x);
-
-    // check for win
-    if (this.checkForWin()) {
-      return this.endGame(`Player ${this.currPlayer} won!`);
-    }
-
-    // check for tie
-    if (board.every((row) => row.every((cell) => cell))) {
-      return this.endGame('Tie!');
-    }
-
-    // switch players
-    this.currPlayer = this.currPlayer === 1 ? 2 : 1;
   }
 
   /** checkForWin: check board cell-by-cell for "does a win start here?" */
@@ -161,6 +167,7 @@ class Game {
   
         // find winner (only checking each win-possibility as needed)
         if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) {
+          this.gameOver = true;
           return true;
         }
       }
