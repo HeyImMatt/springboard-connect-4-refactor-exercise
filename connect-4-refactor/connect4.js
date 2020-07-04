@@ -175,4 +175,14 @@ class Game {
   }
 }
 
-new Game(6, 7)
+document.querySelector('button').addEventListener('click', () => {
+  if (document.getElementById('column-top')) {
+    if(confirm('Do you want to abandon the game and start over?')) {
+      location.reload();
+    }
+  } else new Game(6, 7)
+})
+
+//To Dos
+// Make it so that you have a button to “start the game” — it should only start the game when this is clicked, and you should be able to click this to restart a new game.
+// Part 3 - player class
