@@ -68,7 +68,6 @@ class Game {
 
   /** placeInTable: update DOM to place piece into HTML table of board */
   placeInTable(y, x) {
-    console.log(this.players, this.players.p1.color)
     const piece = document.createElement('div');
     piece.classList.add('piece');
     this.currPlayer === this.players.p1
